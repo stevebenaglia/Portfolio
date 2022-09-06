@@ -1,0 +1,418 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Calculadora</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            img[alt='www.000webhost.com']{
+                display:none;!important
+            }
+        </style>
+    </head>
+    <body>
+        <div style="padding:10px;padding-top:5px;padding-bottom:5px;float:right;border:black solid;width:fit-content;height:fit-content;"><center><b>Histórico</b><br><div id="historico" style="margin-bottom:5px;"></div><button id='atualizar' style="margin-top:10px;margin-left:5px;">Atualizar</button></center></div>
+        <h1>Fatorial</h1>
+        <input type="number" id="n1">
+        <br>
+        <button id="fatorial">Fatorial</button><br>
+        <span id="resultado"></span>
+        <br>
+        <br>
+        <h1>Função</h1>
+        <span>f(</span><input type="text" id="variavel" maxlength="1" style="width:20px;"><span>)=</span><input type="text" id="funcao"><br>
+        <span>f(</span><input type="number" id="n2" style="width:40px;"><span>)=</span><span id="resultado2"></span><br>
+        <button id="funcaoBotao">Função</button>
+        <br>
+        <br>
+        <h1>Equação de Primeiro Grau</h1>
+        <span>Equação:</span><input type="text" id="equacao"><br>
+        <span id="resultado3"></span><br>
+        <button id="equacaoBotao">Equação</button>
+        <br>
+        <br>
+        <h1>Equação de Segundo Grau</h1>
+        <span>Equação:</span><input type="text" id="equacao2"><br>
+        <span id="resultado4"></span><br>
+        <button id="equacaoBotao2">Equação</button>
+        <br>
+        <br>
+        <h1>Porcentagem</h1>
+        <span>Porcentagem:</span><input type="number" id="n3"><span>% de </span><input type="number" id="n4"><br>
+        <span id="resultado5"></span><br>
+        <button id="porcentagemBotao">Porcentagem</button>
+        <br>
+        <br>
+        <h1>Operações com variáveis</h1>
+        <span>Valor1=</span><input type="number" id="n5"><span>Valor2=</span><input type="number" id="n6"><br>
+        <span>Valor1=</span><input type="number" id="n7"><span>Valor2=</span><span id="resultado6"></span><br>
+        <button id="operacaoVarBotao">Variável</button>
+        <script>
+            var historico=[];
+            $("#n1").keydown(function(event){
+                if(event.which==13){
+                    $("#fatorial").click();
+                }
+            })
+            $("#variavel").keydown(function(event){
+                if(event.which==13){
+                    $("#funcaoBotao").click();
+                }
+            })
+            $("#funcao").keydown(function(event){
+                if(event.which==13){
+                    $("#funcaoBotao").click();
+                }
+            })
+            $("#n2").keydown(function(event){
+                if(event.which==13){
+                    $("#funcaoBotao").click();
+                }
+            })
+            $("#equacao").keydown(function(event){
+                if(event.which==13){
+                    $("#equacaoBotao").click();
+                }
+            })
+            $("#equacao2").keydown(function(event){
+                if(event.which==13){
+                    $("#equacaoBotao2").click();
+                }
+            })
+            $("#n3").keydown(function(event){
+                if(event.which==13){
+                    $("#porcentagemBotao").click();
+                }
+            })
+            $("#n4").keydown(function(event){
+                if(event.which==13){
+                    $("#porcentagemBotao").click();
+                }
+            })
+            $("#n5").keydown(function(event){
+                if(event.which==13){
+                    $("#operacaoVarBotao").click();
+                }
+            })
+            $("#n6").keydown(function(event){
+                if(event.which==13){
+                    $("#operacaoVarBotao").click();
+                }
+            })
+            $("#n7").keydown(function(event){
+                if(event.which==13){
+                    $("#operacaoVarBotao").click();
+                }
+            })
+            $("#fatorial").click(function(){
+                if($("#n1").val()!=''){
+                    var valor=$("#n1").val();
+                    var resposta=valor;
+                    while(valor>1){
+                        resposta=resposta*(valor-1);
+                        valor--;
+                    }
+                    $("#resultado").html("O resultado é "+resposta);
+                    historico.push("Fatorial de "+$("#n1").val()+"="+resposta);
+                }else{
+                    $("#resultado").html("");
+                }
+            })
+            $("#funcaoBotao").click(function(){
+                if($("#variavel").val()!=""&&$("#funcao").val()!=""){
+                var valor=$("#n2").val();
+                var funcao=$("#funcao").val();
+                var variavel=$("#variavel").val();
+                while(funcao.indexOf(variavel)!=-1){
+                    var lugar=funcao.indexOf(variavel);
+                    var antes=funcao.charAt(lugar-1);
+                    var depois=funcao.charAt(lugar+1);
+                    if(antes!=""&&antes!="+"&&antes!="-"&&antes!="/"&&antes!="^"){
+                        funcao=funcao.replace(variavel,"*"+valor);
+                    }else if(depois!=""&&depois!="+"&&depois!="-"&&depois!="/"&&depois!="^"&&depois!="²"&&depois!="³"&&antes!="^"){
+                        funcao=funcao.replace(variavel,valor+"*");
+                    }else{
+                        funcao=funcao.replace(variavel,valor);
+                    }
+                }
+                equacao=funcao;
+                while(equacao.indexOf('²')!=-1){
+                    var lugar=equacao.indexOf('²');
+                    var quadrado=equacao.charAt(lugar-1);
+                    if(quadrado<0){
+                        quadrado=quadrado*(-1)
+                    }
+                    equacao=equacao.replace(quadrado,Math.pow(quadrado,2));
+                    equacao=equacao.replace('²','');
+                }
+                while(equacao.indexOf('³')!=-1){
+                    var lugar=equacao.indexOf('³');
+                    var quadrado=equacao.charAt(lugar-1);
+                    equacao=equacao.replace(quadrado,Math.pow(quadrado,3));
+                    equacao=equacao.replace('³','');
+                }
+                while(equacao.indexOf('^')!=-1){
+                    var quadrado='';
+                    var antes=equacao.charAt(equacao.indexOf('^')-1);
+                    var n=1;
+                    while(antes!=""&&antes!="+"&&antes!="-"&&antes!="*"&&antes!="/"){
+                        n++;
+                        quadrado=antes+quadrado;
+                        antes=equacao.charAt(equacao.indexOf('^')-n);
+                    }
+                    var expoente='';
+                    var depois=equacao.charAt(equacao.indexOf('^')+1);
+                    var n=1;
+                    while(depois!=""&&depois!="+"&&depois!="-"&&depois!="*"&&depois!="/"){
+                        n++;
+                        expoente=expoente+depois;
+                        depois=equacao.charAt(equacao.indexOf('^')+n);
+                    }
+                    quadrado2=eval(quadrado);
+                    expoente2=eval(expoente);
+                    if(expoente2>0){
+                    equacao=equacao.replace(quadrado+'^'+expoente,Math.pow(quadrado2,expoente2));
+                    }
+                }
+                $("#resultado2").html(eval(equacao));
+                historico.push("Função f("+variavel+")="+$('#funcao').val()+", onde f("+valor+")="+equacao);
+                }else{
+                    $("#resultado2").html("");
+                }
+            })
+            $("#equacaoBotao").click(function(){
+                if($("#equacao").val()!=""){
+                    var equacao=$("#equacao").val();
+                    var igual=equacao.indexOf("=");
+                    var direita=equacao.slice(igual+1);
+                    var esquerda=equacao.slice(0,igual);
+                    var valorx="";
+                    var lugar="";
+                    var passa="";
+                    var valorn="";
+                    for(n=0;n<equacao.length;n++){
+                        if(equacao.charAt(n)!='0'&&equacao.charAt(n)!='1'&&equacao.charAt(n)!='2'&&equacao.charAt(n)!='3'&&equacao.charAt(n)!='4'&&equacao.charAt(n)!='5'&&equacao.charAt(n)!='6'&&equacao.charAt(n)!='7'&&equacao.charAt(n)!='8'&&equacao.charAt(n)!='9'&&equacao.charAt(n)!='+'&&equacao.charAt(n)!='-'&&equacao.charAt(n)!='*'&&equacao.charAt(n)!='/'&&equacao.charAt(n)!='='&&equacao.charAt(n)!='²'){
+                            var variavel=equacao.charAt(n);
+                        }
+                    }
+                    if($.isNumeric(esquerda.charAt(0))||esquerda.charAt(0)==variavel){
+                        esquerda="+"+esquerda;
+                    }
+                    if($.isNumeric(direita.charAt(0))||direita.charAt(0)==variavel){
+                        direita="+"+direita;
+                    }
+                    while(direita.indexOf("+"+variavel)!=-1||direita.indexOf("-"+variavel)!=-1){
+                        direita=direita.replace("+"+variavel,"+1"+variavel);
+                        direita=direita.replace("-"+variavel,"-1"+variavel);
+                    }
+                    while(esquerda.indexOf("+"+variavel)!=-1||esquerda.indexOf("-"+variavel)!=-1){
+                        esquerda=esquerda.replace("+"+variavel,"+1"+variavel);
+                        esquerda=esquerda.replace("-"+variavel,"-1"+variavel);
+                    }
+                    while(direita.indexOf("+")!=-1){
+                        direita=direita.replace("+","$");
+                    }
+                    while(direita.indexOf("-")!=-1){
+                        direita=direita.replace("-","+");
+                    }
+                    while(direita.indexOf("$")!=-1){
+                        direita=direita.replace("$","-");
+                    }
+                    equacao=esquerda+direita+"=0";
+                    console.log(equacao);
+                    while(equacao.indexOf(variavel)!=-1){
+                        lugar=equacao.indexOf(variavel);
+                        passa=equacao.charAt(lugar);
+                        while(equacao.charAt(lugar-1)!=""&&equacao.charAt(lugar-1)!="="&&equacao.charAt(lugar-1)!="+"&&equacao.charAt(lugar-1)!="-"){
+                            passa=equacao.charAt(lugar-1)+passa;
+                            lugar--;
+                        }
+                        passa=equacao.charAt(lugar-1)+passa;
+                        equacao=equacao.replace(passa,"");
+                        valorx=valorx+passa;
+                    }
+                    console.log(valorx);
+                    igual=equacao.indexOf("=");
+                    valorn=equacao.slice(0,igual);
+                    while(valorn.indexOf("+")!=-1){
+                        valorn=valorn.replace("+","$");
+                    }
+                    while(valorn.indexOf("-")!=-1){
+                        valorn=valorn.replace("-","+");
+                    }
+                    while(valorn.indexOf("$")!=-1){
+                        valorn=valorn.replace("$","-");
+                    }
+                    console.log(valorn);
+                    equacao=valorx+"="+valorn;
+                    console.log(equacao);
+                    while(valorx.indexOf(variavel)!=-1){
+                        valorx=valorx.replace(variavel,'');
+                    }
+                    valorx=eval(valorx);
+                    valorn=eval(valorn);
+                    if(valorx==1){
+                        equacao=variavel+"="+valorn;
+                    }else{
+                        equacao=valorx+variavel+"="+valorn;
+                        valorn=valorn/valorx;
+                        if(Number.isInteger(valorn)){
+                            equacao=variavel+"="+valorn;
+                        }else{
+                            valorn=valorn*valorx;
+                            equacao=variavel+"="+valorn+"/"+valorx;
+                            if(valorx<0){
+                                    valorn=valorn*(-1);
+                                    valorx=valorx*(-1);
+                                equacao=variavel+"="+valorn+"/"+valorx;
+                            }
+                        }
+                    }
+                    console.log(equacao);
+                    $("#resultado3").html(equacao);
+                    historico.push($("#equacao").val()+", "+equacao);
+                }else{
+                    $("#resultado3").html("");
+                }
+            })
+            $("#equacaoBotao2").click(function(){
+                if($("#equacao2").val()!=""){
+                    var equacao=$("#equacao2").val();
+                    for(n=0;n<equacao.length;n++){
+                        if(equacao.charAt(n)!='0'&&equacao.charAt(n)!='1'&&equacao.charAt(n)!='2'&&equacao.charAt(n)!='3'&&equacao.charAt(n)!='4'&&equacao.charAt(n)!='5'&&equacao.charAt(n)!='6'&&equacao.charAt(n)!='7'&&equacao.charAt(n)!='8'&&equacao.charAt(n)!='9'&&equacao.charAt(n)!='+'&&equacao.charAt(n)!='-'&&equacao.charAt(n)!='*'&&equacao.charAt(n)!='/'&&equacao.charAt(n)!='='&&equacao.charAt(n)!='²'){
+                            var variavel=equacao.charAt(n);
+                        }
+                    }
+                    var igual;
+                    var direita;
+                    var esquerda;
+                    var lugar;
+                    var passa;
+                    var valorA="";
+                    var valorB="";
+                    var valorC="";
+                    var delta="";
+                    var x1="";
+                    var x2="";
+                    lugar=equacao.indexOf(variavel);
+                    igual=equacao.indexOf('=');
+                    esquerda=equacao.slice(0,igual);
+                    direita=equacao.slice(igual+1);
+                    if(direita.charAt(0)==variavel||$.isNumeric(direita.charAt(0))){
+                        direita="+"+direita;
+                    }
+                    if(esquerda.charAt(0)==variavel||$.isNumeric(esquerda.charAt(0))){
+                        esquerda="+"+esquerda;
+                    }
+                    while(direita.indexOf('+')!=-1){
+                        direita=direita.replace('+',"$");
+                    }
+                    while(direita.indexOf('-')!=-1){
+                        direita=direita.replace('-','+');
+                    }
+                    while(direita.indexOf("$")!=-1){
+                        direita=direita.replace('$','-');
+                    }
+                    equacao=esquerda+direita+"=0";
+                    while(equacao.indexOf("+"+variavel)!=-1||equacao.indexOf("-"+variavel)!=-1){
+                        equacao=equacao.replace("+"+variavel,"+1"+variavel);
+                        equacao=equacao.replace("-"+variavel,"-1"+variavel);
+                    }
+                    console.log(equacao);
+                    lugar=equacao.indexOf(variavel+"²");
+                    while(lugar!=-1){
+                        passa="";
+                        while($.isNumeric(equacao.charAt(lugar-1))){
+                            passa=equacao.charAt(lugar-1)+passa;
+                            lugar--;
+                        }
+                        if(equacao.charAt(lugar-1)!=""){
+                            passa=equacao.charAt(lugar-1)+passa;
+                        }
+                        valorA=valorA+passa;
+                        equacao=equacao.replace(passa+variavel+"²","");
+                        lugar=equacao.indexOf(variavel+"²");
+                    console.log(valorA);
+                    }
+                    valorA=eval(valorA);
+                    console.log(equacao);
+                    lugar=equacao.indexOf(variavel);
+                    while(lugar!=-1){
+                        passa="";
+                        while($.isNumeric(equacao.charAt(lugar-1))){
+                            passa=equacao.charAt(lugar-1)+passa;
+                            lugar--;
+                        }
+                        if(equacao.charAt(lugar-1)!=""){
+                            passa=equacao.charAt(lugar-1)+passa;
+                        }
+                        valorB=valorB+passa;
+                        equacao=equacao.replace(passa+variavel,"");
+                        lugar=equacao.indexOf(variavel);
+                    }
+                    valorB=eval(valorB);
+                    console.log(equacao);
+                    valorC=eval(equacao.replace("=0",""));
+                    console.log(valorC);
+                    delta=Math.pow(valorB,2)-4*valorA*valorC;
+                    console.log(delta);
+                    if(Number.isInteger(Math.sqrt(delta))){
+                        x1=((-1)*valorB+Math.sqrt(delta))/2*valorA;
+                        x2=((-1)*valorB-Math.sqrt(delta))/2*valorA;
+                    }else{
+                        x1="("+valorB*(-1)+"+&#8730;"+delta+")/"+valorA*2;
+                        x2="("+valorB*(-1)+"-&#8730;"+delta+")/"+valorA*2;
+                    }
+                    $("#resultado4").html("a="+valorA+"||b="+valorB+"||c="+valorC+"||&#916;="+delta+"||V={"+x1+","+x2+"}");
+                    historico.push($("#equacao2").val()+", V={"+x1+","+x2+"}");
+                }else{
+                    $("#resultado4").html("");
+                }
+            })
+            $("#porcentagemBotao").click(function(){
+                if($("#n4").val()!=""&&$("#n3").val()!=""){
+                    var porcentagem=$("#n3").val();
+                    var n=$("#n4").val();
+                    var umpct=n/100;
+                    var valor=(porcentagem*umpct).toFixed(2);
+                    var soma=eval(n)+eval(valor);
+                    var subtracao=n-valor;
+                    $("#resultado5").html("Valor="+valor+"||Soma="+soma+"||Subtração="+subtracao);
+                    historico.push(porcentagem+"% de "+n+" onde o valor é "+valor+", a soma é "+soma+" e a subtração é "+subtracao);
+                }
+            })
+            $("#operacaoVarBotao").click(function(){
+                if($("#n5").val()!=""&&$("#n6").val()!=""&&$("#n7").val()!=""){
+                    var n1=eval($("#n5").val());
+                    var n2=eval($("#n6").val());
+                    var n3=eval($("#n7").val());
+                    var n4;
+                    if(n1>=n3){
+                        n4=(n2/n1);
+                        n4=n3*n4;
+                    }else{
+                        n4=(n3/n1);
+                        console.log(n4);
+                        n4=n4*n2;
+                        console.log(n4);
+                    }
+                        n4=n4.toFixed(2);
+                    $("#resultado6").html(n4);
+                    historico.push("Operação com variaveis onde "+n1+"->"+n2+"||"+n3+"->"+n4);
+                }
+            })
+            $("#atualizar").click(function(){
+                $("#historico").html("");
+                var valor;
+                while(historico.length>10){
+                    historico.shift();
+                }
+                n=historico.length;
+                historico.forEach(function(item,index){
+                    valor=index+1;
+                    $("#historico").append('<br><span><b>'+n+".</b>"+item+"</span><br>");
+                    n--;
+                })
+            })
+        </script>
+    </body>
+</html>
